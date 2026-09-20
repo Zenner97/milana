@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Life English Trainer — Present Simple vs Present Continuous</title>
+<style>
+:root{
+  --bg:#f5f7fb; --card:#ffffff; --text:#1c2434; --muted:#6f7785;
+  --line:#dfe4ec; --accent:#3957d6; --ok:#237a4b; --warn:#aa6b00;
+  --bad:#a33c3c; --soft:#eef2ff;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:var(--bg); color:var(--text); line-height:1.5;
+}
+header{
+  background:linear-gradient(135deg,#223a91,#4c68df);
+  color:#fff; padding:36px 20px 28px;
+}
+.wrap{max-width:1050px;margin:auto}
+h1{margin:0 0 8px;font-size:clamp(28px,5vw,46px)}
+h2{margin-top:0;font-size:28px}
+h3{margin-bottom:8px}
+.lead{max-width:850px;opacity:.95}
+.progress-wrap{
+  margin-top:20px;background:rgba(255,255,255,.22);border-radius:999px;height:12px;overflow:hidden;
+}
+#progressBar{height:100%;width:0;background:#fff;transition:.3s}
+.progress-text{margin-top:7px;font-size:14px}
+main{padding:24px 16px 70px}
+section{
+  background:var(--card); border:1px solid var(--line); border-radius:18px;
+  padding:22px; margin:18px auto; box-shadow:0 7px 24px rgba(30,45,90,.05);
+}
+.method-grid,.grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;
+}
+.step{
+  border:1px solid var(--line);border-radius:14px;padding:14px;background:#fafbff;
+}
+.badge{
+  display:inline-block;padding:4px 9px;border-radius:999px;background:var(--soft);
+  color:var(--accent);font-weight:700;font-size:13px
+}
+button{
+  border:none;border-radius:11px;padding:10px 14px;font-size:15px;cursor:pointer;
+  background:var(--accent);color:#fff;font-weight:650;
+}
+button.secondary{background:#eef1f7;color:#273148}
+button.good{background:var(--ok)}
+button.warn{background:var(--warn)}
+button.bad{background:var(--bad)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.controls{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
+.small{font-size:13px;color:var(--muted)}
+.card{
+  min-height:250px;border:2px solid var(--line);border-radius:18px;padding:28px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+  background:linear-gradient(180deg,#fff,#f8f9ff);
+}
+.card .term{font-size:34px;font-weight:800;margin:8px 0}
+.card .ru{font-size:23px;color:#38425a;margin:4px 0}
+.card .example{font-size:18px;margin-top:18px;color:#515b70}
+.pill{
+  display:inline-block;background:#f1f3f8;border-radius:999px;padding:4px 10px;margin:3px;
+  font-size:13px
+}
+textarea,input[type="text"],select{
+  width:100%;border:1px solid #cfd5df;border-radius:11px;padding:12px;font-size:16px;background:#fff;
+}
+textarea{min-height:150px;resize:vertical}
+.quiz-item{
+  border:1px solid var(--line);border-radius:13px;padding:14px;margin:12px 0;background:#fcfcfe;
+}
+.feedback{margin-top:8px;font-weight:700}
+.ok{color:var(--ok)} .no{color:var(--bad)}
+.word-list{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;
+}
+.word-row{
+  border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;
+}
+.word-row strong{font-size:17px}
+.checkline{display:flex;gap:9px;align-items:flex-start;margin:8px 0}
+.checkline input{margin-top:5px}
+.story-box{
+  background:#f8faff;border:1px dashed #b8c2e6;border-radius:14px;padding:16px;
+}
+.hidden{display:none!important}
+.notice{padding:12px 14px;border-left:4px solid var(--accent);background:#f4f6ff;border-radius:8px}
+footer{max-width:1050px;margin:auto;padding:0 16px 35px;color:var(--muted);font-size:13px}
+@media(max-width:600px){
+  section{padding:16px}
+  .card .term{font-size:28px}
+  .card .ru{font-size:20px}
+}
+@media print{
+  header,.controls button,#flashcardControls,#typeControls{display:none!important}
+  body{background:#fff}
+  section{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="badge" style="background:rgba(255,255,255,.18);color:#fff">SELF-STUDY TRAINER</div>
+    <h1>My Life English Trainer</h1>
+    <p class="lead">Тема: моя жизнь, привычки и то, что происходит сейчас. Цель — не просто узнать слова, а начать быстро использовать их в собственной речи.</p>
+    <div class="progress-wrap"><div id="progressBar"></div></div>
+    <div class="progress-text">Общий прогресс: <span id="progressText">0%</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<section>
+  <h2>Как заниматься</h2>
+  <div class="notice"><strong>Главное правило:</strong> не перечитывай слова много раз. Старайся <strong>вспоминать их без подсказки</strong> и сразу использовать в предложениях про себя.</div>
+  <div class="method-grid" style="margin-top:16px">
+    <div class="step"><span class="badge">1 · 5–7 минут</span><h3>Узнай</h3><p>Пройди карточки. Сначала английское выражение → вспомни значение → открой перевод.</p></div>
+    <div class="step"><span class="badge">2 · 5–7 минут</span><h3>Вспомни</h3><p>Переключись на русский → попробуй сказать английский вариант <strong>до</strong> открытия ответа.</p></div>
+    <div class="step"><span class="badge">3 · 7–10 минут</span><h3>Напечатай</h3><p>Печатай выражения по-английски. Ошибки сразу исправляй.</p></div>
+    <div class="step"><span class="badge">4 · 10 минут</span><h3>Примени</h3><p>Сделай упражнения на Present Simple / Present Continuous и составь личные предложения.</p></div>
+    <div class="step"><span class="badge">5 · 5–10 минут</span><h3>Расскажи</h3><p>Сделай рассказ о себе. Потом закрой текст и расскажи ещё раз голосом без чтения.</p></div>
+  </div>
+  <p class="small"><strong>Режим повторения:</strong> День 1 → День 2 → День 4 → День 7. На каждом повторении сначала пытайся вспомнить, а не перечитать.</p>
+</section>
+
+<section>
+  <h2>1. Слова и выражения</h2>
+  <p>Сначала выучи <strong>ядро из 18 выражений</strong>. Когда они вспоминаются быстро, добавь дополнительные.</p>
+  <div class="controls">
+    <button onclick="renderWordList('core')">Показать ядро</button>
+    <button class="secondary" onclick="renderWordList('extra')">Дополнительные</button>
+    <button class="secondary" onclick="renderWordList('all')">Все</button>
+  </div>
+  <div id="wordList" class="word-list"></div>
+</section>
+
+<section>
+  <h2>2. Карточки</h2>
+  <p>Скажи ответ <strong>вслух</strong>, только потом переворачивай карточку. Нажимай «Знаю», только если вспомнила быстро и без подсказки.</p>
+  <div class="controls">
+    <select id="deckSelect" onchange="resetDeck()" style="max-width:260px">
+      <option value="core">Ядро — 18 выражений</option>
+      <option value="all">Все выражения</option>
+      <option value="review">Только «повторить»</option>
+    </select>
+    <select id="directionSelect" onchange="showCard()" style="max-width:260px">
+      <option value="enru">English → Русский</option>
+      <option value="ruen">Русский → English</option>
+    </select>
+  </div>
+
+  <div class="card" id="flashcard">
+    <div class="small" id="cardCounter"></div>
+    <div class="term" id="cardFront"></div>
+    <div id="cardBack" class="hidden">
+      <div class="ru" id="cardTranslation"></div>
+      <div class="example" id="cardExample"></div>
+    </div>
+  </div>
+
+  <div class="controls" id="flashcardControls">
+    <button onclick="revealCard()">Показать ответ</button>
+    <button class="secondary" onclick="speakCurrent()">🔊 Озвучить</button>
+    <button class="bad" onclick="rateCard(false)">Повторить</button>
+    <button class="good" onclick="rateCard(true)">Знаю</button>
+  </div>
+  <p class="small">Прогресс карточек: <span id="knownCount">0</span> выражений отмечено как «знаю».</p>
+</section>
+
+<section>
+  <h2>3. Active Recall — напиши слово сама</h2>
+  <p>Увидишь русский перевод. Напечатай английское выражение без подсказки.</p>
+  <div class="card" style="min-height:190px">
+    <div class="small">Переведи на английский:</div>
+    <div class="ru" id="typePrompt"></div>
+    <div style="width:min(520px,100%);margin-top:18px">
+      <input id="typeAnswer" type="text" placeholder="Type in English..." onkeydown="if(event.key==='Enter') checkTyping()">
+    </div>
+    <div id="typeFeedback" class="feedback"></div>
+  </div>
+  <div class="controls" id="typeControls">
+    <button onclick="checkTyping()">Проверить</button>
+    <button class="secondary" onclick="newTyping()">Другое слово</button>
+    <button class="secondary" onclick="speakTypingAnswer()">🔊 Ответ</button>
+  </div>
+</section>
+
+<section>
+  <h2>4. Present Simple vs Present Continuous</h2>
+  <p><strong>Present Simple</strong> = обычно, регулярно, факт. <strong>Present Continuous</strong> = прямо сейчас / временно / в этот период.</p>
+  <div class="grid">
+    <div class="step"><strong>Present Simple</strong><br>I usually wake up at 8.<br>I feed my cat every morning.<br>I prefer tea to coffee.</div>
+    <div class="step"><strong>Present Continuous</strong><br>Right now I am studying English.<br>This week I am working a lot.<br>I am working on my English.</div>
+  </div>
+  <div id="grammarQuiz"></div>
+  <div class="controls"><button onclick="checkGrammar()">Проверить всё</button><button class="secondary" onclick="resetGrammar()">Начать заново</button></div>
+  <div id="grammarScore" class="feedback"></div>
+</section>
+
+<section>
+  <h2>5. Сделай предложения про себя</h2>
+  <p>Напиши не перевод из учебника, а <strong>правду про себя</strong>. Постарайся использовать связки <em>because, but, after, before</em>.</p>
+  <div class="grid">
+    <div>
+      <label><strong>1. I usually...</strong></label>
+      <textarea id="s1" placeholder="I usually wake up at..."></textarea>
+    </div>
+    <div>
+      <label><strong>2. Sometimes I...</strong></label>
+      <textarea id="s2" placeholder="Sometimes I..."></textarea>
+    </div>
+    <div>
+      <label><strong>3. After I..., I...</strong></label>
+      <textarea id="s3" placeholder="After I wake up, I..."></textarea>
+    </div>
+    <div>
+      <label><strong>4. I prefer... because...</strong></label>
+      <textarea id="s4" placeholder="I prefer... because..."></textarea>
+    </div>
+    <div>
+      <label><strong>5. Right now I am...</strong></label>
+      <textarea id="s5" placeholder="Right now I am..."></textarea>
+    </div>
+    <div>
+      <label><strong>6. This week I am...</strong></label>
+      <textarea id="s6" placeholder="This week I am..."></textarea>
+    </div>
+  </div>
+  <div class="controls"><button onclick="saveWriting()">Сохранить мои предложения</button></div>
+</section>
+
+<section>
+  <h2>6. Финальный рассказ «My Life: Usually vs Now»</h2>
+  <div class="story-box">
+    <p><strong>Задача:</strong> подготовь 10–15 предложений о себе.</p>
+    <div class="checkline"><input type="checkbox" id="c1"><label for="c1">Минимум 5 предложений о привычках — Present Simple.</label></div>
+    <div class="checkline"><input type="checkbox" id="c2"><label for="c2">Минимум 5 предложений о том, что происходит сейчас / в этот период — Present Continuous.</label></div>
+    <div class="checkline"><input type="checkbox" id="c3"><label for="c3">Используй минимум 12 выражений из тренажёра.</label></div>
+    <div class="checkline"><input type="checkbox" id="c4"><label for="c4">Используй минимум 3 связки: because / but / after / before.</label></div>
+    <div class="checkline"><input type="checkbox" id="c5"><label for="c5">После написания закрой текст и расскажи всё ещё раз голосом без чтения.</label></div>
+  </div>
+
+  <h3 style="margin-top:20px">Опора для рассказа</h3>
+  <p class="small">Не обязательно использовать всё. Это подсказки, а не готовый текст.</p>
+  <div>
+    <span class="pill">I usually...</span>
+    <span class="pill">Every day...</span>
+    <span class="pill">In the morning...</span>
+    <span class="pill">After I..., I...</span>
+    <span class="pill">Before I..., I...</span>
+    <span class="pill">Sometimes I...</span>
+    <span class="pill">I prefer... because...</span>
+    <span class="pill">Right now I am...</span>
+    <span class="pill">This week I am...</span>
+    <span class="pill">At the moment I am...</span>
+    <span class="pill">I am working on...</span>
+    <span class="pill">I would like to...</span>
+  </div>
+
+  <textarea id="story" placeholder="Write your story here..." style="min-height:260px;margin-top:14px"></textarea>
+  <div class="controls">
+    <button onclick="saveStory()">Сохранить рассказ</button>
+    <button class="secondary" onclick="countStory()">Проверить объём</button>
+    <button class="secondary" onclick="speakStory()">🔊 Прослушать мой рассказ</button>
+  </div>
+  <div id="storyStats" class="feedback"></div>
+</section>
+
+<section>
+  <h2>7. Самопроверка</h2>
+  <p>Поставь галочки только если можешь сделать это <strong>без подсказки</strong>.</p>
+  <div class="checkline"><input type="checkbox" class="selfcheck"><span>Я могу быстро перевести 15+ выражений с русского на английский.</span></div>
+  <div class="checkline"><input type="checkbox" class="selfcheck"><span>Я могу составить по одному личному предложению с каждым основным выражением.</span></div>
+  <div class="checkline"><input type="checkbox" class="selfcheck"><span>Я понимаю разницу между “I usually work...” и “I am working...”</span></div>
+  <div class="checkline"><input type="checkbox" class="selfcheck"><span>Я могу говорить о себе 1–2 минуты без чтения.</span></div>
+  <div class="checkline"><input type="checkbox" class="selfcheck"><span>Я использую because / but / after / before, чтобы делать ответы длиннее.</span></div>
+</section>
+
+</main>
+
+<footer>
+  Тренажёр сохраняет прогресс в браузере на этом устройстве. Для озвучки используется встроенный голос браузера.
+</footer>
+
+<script>
+const vocab = [
+ {en:"feed my cat",ru:"кормить кота",ex:"I feed my cat every morning.",core:true},
+ {en:"wake up",ru:"просыпаться",ex:"I usually wake up at eight.",core:true},
+ {en:"after",ru:"после / после того как",ex:"After I wake up, I make coffee.",core:true},
+ {en:"before",ru:"до / перед тем как",ex:"I check my phone before breakfast.",core:true},
+ {en:"in the morning",ru:"утром",ex:"I work in the morning.",core:true},
+ {en:"at night",ru:"ночью / вечером перед сном",ex:"I usually watch videos at night.",core:true},
+ {en:"every day",ru:"каждый день",ex:"I practise English every day.",core:true},
+ {en:"usually",ru:"обычно",ex:"I usually stay at home in the evening.",core:true},
+ {en:"sometimes",ru:"иногда",ex:"Sometimes I go for a walk.",core:true},
+ {en:"prefer",ru:"предпочитать",ex:"I prefer tea to coffee.",core:true},
+ {en:"a routine",ru:"распорядок / рутина",ex:"I have the same morning routine every day.",core:true},
+ {en:"different",ru:"другой / разный",ex:"My weekends are different.",core:true},
+ {en:"a lifestyle",ru:"образ жизни",ex:"I like a quiet lifestyle.",core:true},
+ {en:"right now",ru:"прямо сейчас",ex:"Right now I am studying English.",core:true},
+ {en:"this week",ru:"на этой неделе",ex:"This week I am working a lot.",core:true},
+ {en:"work on something",ru:"работать над чем-либо",ex:"I am working on my English now.",core:true},
+ {en:"relax",ru:"отдыхать / расслабляться",ex:"I relax after work.",core:true},
+ {en:"spend time",ru:"проводить время",ex:"I spend a lot of time at home.",core:true},
+
+ {en:"travel",ru:"путешествовать",ex:"I like travelling.",core:false},
+ {en:"explore",ru:"исследовать / изучать новое место",ex:"I like exploring new places.",core:false},
+ {en:"nature",ru:"природа",ex:"I like spending time in nature.",core:false},
+ {en:"stay",ru:"оставаться / останавливаться",ex:"I usually stay at home on Sundays.",core:false},
+ {en:"space",ru:"место / пространство",ex:"I don't have much space in my room.",core:false},
+ {en:"store something",ru:"хранить что-либо",ex:"I store my clothes in a wardrobe.",core:false},
+ {en:"set up a tent",ru:"поставить палатку",ex:"We set up a tent near the lake.",core:false},
+ {en:"collect sticks",ru:"собирать ветки",ex:"We collected sticks for the fire.",core:false},
+ {en:"go home",ru:"идти / ехать домой",ex:"I usually go home at six.",core:false},
+ {en:"make coffee",ru:"готовить кофе",ex:"I make coffee every morning.",core:false},
+ {en:"have enough space",ru:"иметь достаточно места",ex:"I don't have enough space for my things.",core:false},
+ {en:"would like to",ru:"хотелось бы",ex:"I would like to travel more.",core:false}
+];
+
+const grammar = [
+ {q:"I usually ___ (wake up) at 8.",a:"wake up",hint:"usually → Present Simple"},
+ {q:"Right now I ___ (study) English.",a:"am studying",hint:"right now → Present Continuous"},
+ {q:"She ___ (feed) her cat every morning.",a:"feeds",hint:"every morning → Present Simple; she → -s"},
+ {q:"This week we ___ (work) from home.",a:"are working",hint:"this week → temporary situation"},
+ {q:"I ___ (prefer) tea to coffee.",a:"prefer",hint:"general preference → Present Simple"},
+ {q:"At the moment he ___ (make) coffee.",a:"is making",hint:"at the moment → Present Continuous"},
+ {q:"Sometimes I ___ (go) for a walk after work.",a:"go",hint:"sometimes → Present Simple"},
+ {q:"My routine ___ (be) different this week.",a:"is",hint:"be in Present Simple: is"},
+ {q:"I ___ (work) on my English these days.",a:"am working",hint:"these days → current temporary period"},
+ {q:"We usually ___ (spend) weekends at home.",a:"spend",hint:"usually → Present Simple"}
+];
+
+let known = JSON.parse(localStorage.getItem("knownWords") || "[]");
+let review = JSON.parse(localStorage.getItem("reviewWords") || "[]");
+let deck=[], cardIndex=0, currentTyping=null;
+
+function norm(s){
+ return s.toLowerCase().trim().replace(/[’']/g,"'").replace(/\s+/g," ");
+}
+function renderWordList(mode="core"){
+ const el=document.getElementById("wordList");
+ let list=vocab;
+ if(mode==="core") list=vocab.filter(v=>v.core);
+ if(mode==="extra") list=vocab.filter(v=>!v.core);
+ el.innerHTML=list.map(v=>`
+ <div class="word-row">
+   <strong>${v.en}</strong> <button class="secondary" style="padding:5px 8px" onclick='speak("${v.en.replace(/'/g,"\\'")}")'>🔊</button><br>
+   ${v.ru}<br><span class="small">${v.ex}</span>
+ </div>`).join("");
+}
+function speak(text){
+ if(!("speechSynthesis" in window)) return alert("Озвучка не поддерживается этим браузером.");
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(text);
+ u.lang="en-US"; u.rate=.88;
+ speechSynthesis.speak(u);
+}
+function getDeck(){
+ const mode=document.getElementById("deckSelect").value;
+ if(mode==="core") return vocab.filter(v=>v.core);
+ if(mode==="review") return vocab.filter(v=>review.includes(v.en));
+ return vocab;
+}
+function resetDeck(){
+ deck=getDeck();
+ if(deck.length===0){
+   deck=vocab.filter(v=>v.core);
+   alert("В списке «повторить» пока нет слов.");
+ }
+ cardIndex=0; showCard();
+}
+function showCard(){
+ if(!deck.length) deck=getDeck();
+ const v=deck[cardIndex%deck.length];
+ const dir=document.getElementById("directionSelect").value;
+ document.getElementById("cardCounter").textContent=`${cardIndex%deck.length+1} / ${deck.length}`;
+ document.getElementById("cardBack").classList.add("hidden");
+ if(dir==="enru"){
+   document.getElementById("cardFront").textContent=v.en;
+   document.getElementById("cardTranslation").textContent=v.ru;
+ } else {
+   document.getElementById("cardFront").textContent=v.ru;
+   document.getElementById("cardTranslation").textContent=v.en;
+ }
+ document.getElementById("cardExample").textContent=v.ex;
+}
+function revealCard(){document.getElementById("cardBack").classList.remove("hidden")}
+function speakCurrent(){ if(deck.length) speak(deck[cardIndex%deck.length].en) }
+function rateCard(isKnown){
+ const v=deck[cardIndex%deck.length];
+ if(isKnown){
+   if(!known.includes(v.en)) known.push(v.en);
+   review=review.filter(x=>x!==v.en);
+ } else {
+   known=known.filter(x=>x!==v.en);
+   if(!review.includes(v.en)) review.push(v.en);
+ }
+ localStorage.setItem("knownWords",JSON.stringify(known));
+ localStorage.setItem("reviewWords",JSON.stringify(review));
+ cardIndex=(cardIndex+1)%deck.length;
+ updateProgress(); showCard();
+}
+function newTyping(){
+ const pool=vocab.filter(v=>v.core);
+ currentTyping=pool[Math.floor(Math.random()*pool.length)];
+ document.getElementById("typePrompt").textContent=currentTyping.ru;
+ document.getElementById("typeAnswer").value="";
+ document.getElementById("typeFeedback").textContent="";
+ document.getElementById("typeAnswer").focus();
+}
+function checkTyping(){
+ if(!currentTyping) return;
+ const ans=norm(document.getElementById("typeAnswer").value);
+ const correct=norm(currentTyping.en);
+ const fb=document.getElementById("typeFeedback");
+ if(ans===correct){
+   fb.innerHTML=`<span class="ok">✓ Верно!</span> ${currentTyping.en}`;
+   if(!known.includes(currentTyping.en)) known.push(currentTyping.en);
+   localStorage.setItem("knownWords",JSON.stringify(known));
+   updateProgress();
+   setTimeout(newTyping,800);
+ } else {
+   fb.innerHTML=`<span class="no">Попробуй ещё раз.</span> Подсказка: ${currentTyping.en.split(" ").map((w,i)=>i===0?w[0]+"…":"…").join(" ")}`;
+ }
+}
+function speakTypingAnswer(){ if(currentTyping) speak(currentTyping.en) }
+
+function renderGrammar(){
+ const el=document.getElementById("grammarQuiz");
+ el.innerHTML=grammar.map((g,i)=>`
+ <div class="quiz-item">
+   <div><strong>${i+1}.</strong> ${g.q}</div>
+   <input type="text" id="g${i}" placeholder="Type the correct form..." style="margin-top:9px">
+   <div id="gf${i}" class="small"></div>
+ </div>`).join("");
+}
+function checkGrammar(){
+ let score=0;
+ grammar.forEach((g,i)=>{
+   const val=norm(document.getElementById("g"+i).value);
+   const ok=val===norm(g.a);
+   if(ok) score++;
+   document.getElementById("gf"+i).innerHTML=ok
+     ? `<span class="ok">✓ Correct</span>`
+     : `<span class="no">✗ Correct answer: <strong>${g.a}</strong></span> · ${g.hint}`;
+ });
+ document.getElementById("grammarScore").textContent=`Результат: ${score} / ${grammar.length}`;
+ localStorage.setItem("grammarDone", score>=8 ? "1":"0");
+ updateProgress();
+}
+function resetGrammar(){
+ grammar.forEach((g,i)=>{document.getElementById("g"+i).value="";document.getElementById("gf"+i).textContent=""});
+ document.getElementById("grammarScore").textContent="";
+}
+function saveWriting(){
+ for(let i=1;i<=6;i++) localStorage.setItem("s"+i,document.getElementById("s"+i).value);
+ localStorage.setItem("writingDone","1");
+ updateProgress();
+ alert("Предложения сохранены на этом устройстве.");
+}
+function saveStory(){
+ localStorage.setItem("story",document.getElementById("story").value);
+ localStorage.setItem("storyDone","1");
+ updateProgress();
+ alert("Рассказ сохранён.");
+}
+function countStory(){
+ const t=document.getElementById("story").value.trim();
+ const words=t ? t.split(/\s+/).length : 0;
+ const sentences=t ? (t.match(/[.!?]+/g)||[]).length : 0;
+ const targets=["usually","right now","this week","after","before","because","but"];
+ const used=targets.filter(x=>t.toLowerCase().includes(x));
+ document.getElementById("storyStats").innerHTML=
+   `Слов: <strong>${words}</strong> · Предложений: <strong>${sentences}</strong> · Найдены связки/маркеры: <strong>${used.join(", ")||"пока нет"}</strong>`;
+}
+function speakStory(){
+ const t=document.getElementById("story").value.trim();
+ if(t) speak(t);
+}
+function updateProgress(){
+ document.getElementById("knownCount").textContent=known.length;
+ let p=0;
+ p += Math.min(known.filter(x=>vocab.find(v=>v.en===x)?.core).length/18,1)*45;
+ if(localStorage.getItem("grammarDone")==="1") p+=20;
+ if(localStorage.getItem("writingDone")==="1") p+=15;
+ if(localStorage.getItem("storyDone")==="1") p+=20;
+ p=Math.round(p);
+ document.getElementById("progressBar").style.width=p+"%";
+ document.getElementById("progressText").textContent=p+"%";
+}
+function loadSaved(){
+ for(let i=1;i<=6;i++) document.getElementById("s"+i).value=localStorage.getItem("s"+i)||"";
+ document.getElementById("story").value=localStorage.getItem("story")||"";
+ document.querySelectorAll(".selfcheck").forEach((el,i)=>{
+   el.checked=localStorage.getItem("self"+i)==="1";
+   el.addEventListener("change",()=>localStorage.setItem("self"+i,el.checked?"1":"0"));
+ });
+ ["c1","c2","c3","c4","c5"].forEach(id=>{
+   const el=document.getElementById(id);
+   el.checked=localStorage.getItem(id)==="1";
+   el.addEventListener("change",()=>localStorage.setItem(id,el.checked?"1":"0"));
+ });
+}
+renderWordList("core");
+renderGrammar();
+resetDeck();
+newTyping();
+loadSaved();
+updateProgress();
+</script>
+</body>
+</html>
